@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "github-readonly": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "jira-readonly": {
+      "command": "npx",
+      "args": ["-y", "@souvikdas98/mcp-jira"],
+      "env": {
+        "JIRA_URL": "${JIRA_URL}",
+        "JIRA_EMAIL": "${JIRA_EMAIL}",
+        "JIRA_API_TOKEN": "${JIRA_API_TOKEN}"
+      }
+    }
+  },
+  "notes": [
+    "Place this file at .codex/mcp.json in your project root.",
+    "Set environment variables before starting Codex.",
+    "Jira integration is optional."
+  ]
+}

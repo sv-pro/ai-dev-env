@@ -1,0 +1,48 @@
+skill:
+  name: branch-delta-review
+  version: "1.0"
+  description: >
+    Portable branch delta review skill. Reviews a git diff against shared
+    review policy and architecture rules.
+
+inputs:
+  BRANCH_DIFF:
+    required: true
+    description: Output of `git diff BASE...HEAD` or a PR diff
+  BASE_BRANCH:
+    required: false
+    default: main
+    description: The base branch for the comparison
+  FEATURE_BRANCH:
+    required: false
+    default: ""
+    description: The feature branch name
+  JIRA_ISSUE:
+    required: false
+    default: ""
+    description: Jira issue content (title, description, acceptance criteria)
+  CHANGED_FILES:
+    required: false
+    default: ""
+    description: Output of `git diff --name-only BASE...HEAD`
+
+context:
+  required_files:
+    - shared/review-policy.md
+    - shared/architecture-rules.md
+  optional_files:
+    - shared/instructions.md
+
+output:
+  format: structured-markdown
+  sections:
+    - Summary
+    - Bug Findings
+    - Architecture Concerns
+    - Risky Changes
+    - Recommendation
+
+adapters:
+  claude: adapters/claude/
+  codex: adapters/codex/
+  gemini: adapters/gemini/

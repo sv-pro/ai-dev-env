@@ -1,0 +1,67 @@
+diff --git a/src/auth.js b/src/auth.js
+new file mode 100644
+index 0000000..abc1234
+--- /dev/null
++++ b/src/auth.js
+@@ -0,0 +1,35 @@
++// auth.js — Authentication module
++const db = require('./db');
++
++/**
++ * Authenticate a user by username and password.
++ */
++async function authenticateUser(username, password) {
++  // Direct string interpolation into SQL query
++  const query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
++  const result = await db.query(query);
++  return result.rows[0] || null;
++}
++
++/**
++ * Generate a session token for an authenticated user.
++ */
++function generateSessionToken(userId) {
++  return `session_${userId}_${Math.random().toString(36).substr(2)}`;
++}
++
++/**
++ * Validate that a session token is still active.
++ */
++async function validateSession(token) {
++  const result = await db.query(
++    'SELECT * FROM sessions WHERE token = $1 AND expires_at > NOW()',
++    [token]
++  );
++  return result.rows.length > 0;
++}
++
++module.exports = { authenticateUser, generateSessionToken, validateSession };
+diff --git a/src/user-controller.js b/src/user-controller.js
+new file mode 100644
+index 0000000..def5678
+--- /dev/null
++++ b/src/user-controller.js
+@@ -0,0 +1,22 @@
++// user-controller.js — HTTP controller for user endpoints
++// ARCHITECTURE VIOLATION: direct DB access from controller
++const db = require('./db');
++const { generateSessionToken } = require('./auth');
++
++async function loginController(req, res) {
++  const { username, password } = req.body;
++
++  // Architecture violation: controller is querying DB directly instead of
++  // going through the user-service layer
++  const query = `SELECT * FROM users WHERE username = '${username}'`;
++  const result = await db.query(query);
++  const user = result.rows[0];
++
++  if (!user || user.password !== password) {
++    return res.status(401).json({ error: 'Invalid credentials' });
++  }
++
++  const token = generateSessionToken(user.id);
++  res.json({ token });
++}
++
++module.exports = { loginController };

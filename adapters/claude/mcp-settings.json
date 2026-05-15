@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "github-readonly": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "jira-readonly": {
+      "command": "npx",
+      "args": ["-y", "@souvikdas98/mcp-jira"],
+      "env": {
+        "JIRA_URL": "${JIRA_URL}",
+        "JIRA_EMAIL": "${JIRA_EMAIL}",
+        "JIRA_API_TOKEN": "${JIRA_API_TOKEN}"
+      }
+    }
+  },
+  "notes": [
+    "Copy the mcpServers block into ~/.claude/settings.json to register MCP servers.",
+    "Set environment variables before starting Claude Code.",
+    "Jira integration is optional."
+  ]
+}

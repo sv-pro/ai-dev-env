@@ -1,0 +1,40 @@
+{
+  "name": "jira-readonly",
+  "description": "Read-only Jira MCP server configuration. Provides access to Jira issues and project context without write permissions.",
+  "server": {
+    "type": "mcp",
+    "command": "npx",
+    "args": ["-y", "@souvikdas98/mcp-jira"],
+    "env": {
+      "JIRA_URL": "${JIRA_URL}",
+      "JIRA_EMAIL": "${JIRA_EMAIL}",
+      "JIRA_API_TOKEN": "${JIRA_API_TOKEN}"
+    }
+  },
+  "permissions": {
+    "mode": "readonly",
+    "allowed_tools": [
+      "get_issue",
+      "search_issues",
+      "get_project",
+      "list_projects",
+      "get_sprint",
+      "get_issue_comments"
+    ],
+    "denied_tools": [
+      "create_issue",
+      "update_issue",
+      "delete_issue",
+      "add_comment",
+      "transition_issue",
+      "assign_issue"
+    ]
+  },
+  "notes": [
+    "Set JIRA_URL to your Jira instance URL (e.g., https://yourorg.atlassian.net).",
+    "Set JIRA_EMAIL to the email address associated with your Jira account.",
+    "Set JIRA_API_TOKEN to an Atlassian API token (not your password).",
+    "Create an API token at https://id.atlassian.com/manage-profile/security/api-tokens.",
+    "Jira integration is optional. Reviews work without it."
+  ]
+}
