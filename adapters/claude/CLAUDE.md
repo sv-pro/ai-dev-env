@@ -8,6 +8,7 @@ Place this file at the root of your project as `CLAUDE.md`.
 You are operating inside the AI Dev Env portable agent environment.
 
 Load the following shared context at startup:
+
 - `shared/instructions.md` — operational instructions
 - `shared/review-policy.md` — review standards
 - `shared/architecture-rules.md` — architecture constraints
@@ -19,7 +20,8 @@ Load the following shared context at startup:
 Perform a structured code review of a branch delta.
 
 **Usage:**
-```
+
+```text
 /review
 /review --branch feature/my-branch
 /review --base main --branch feature/my-branch
@@ -27,13 +29,25 @@ Perform a structured code review of a branch delta.
 ```
 
 **What it does:**
+
 1. Runs `git diff {{BASE}}...{{BRANCH}}` to get the delta
 2. Loads `shared/review-policy.md` and `shared/architecture-rules.md`
 3. Loads the Jira issue if `--jira` is provided
 4. Executes the prompt in `skills/branch-delta-review/prompt.md`
 5. Outputs a structured review: Summary, Bug Findings, Architecture Concerns, Risky Changes, Recommendation
 
-**Implementation:**
+**Implementation (recommended — native Claude Code command):**
+
+Copy the command file to your project:
+
+```bash
+mkdir -p .claude/commands
+cp path/to/ai-dev-env/.claude/commands/review.md .claude/commands/review.md
+```
+
+Claude Code will then execute `.claude/commands/review.md` automatically when the user types `/review`, with `$ARGUMENTS` substituted from the command line.
+
+**Implementation (fallback — inline instructions):**
 
 When the user types `/review`, execute the following steps:
 
@@ -42,6 +56,7 @@ When the user types `/review`, execute the following steps:
    - If `--branch` is provided, use it; otherwise use the current git branch
 
 2. Run:
+
    ```bash
    git diff {{BASE}}...{{BRANCH}}
    git diff --name-only {{BASE}}...{{BRANCH}}
@@ -71,6 +86,7 @@ When available, the following MCP servers are registered:
 ## Operational Principles
 
 Follow all principles in `shared/instructions.md`:
+
 - Be precise: make the smallest change that solves the problem
 - Be transparent: explain findings clearly
 - Be consistent: apply policy uniformly
