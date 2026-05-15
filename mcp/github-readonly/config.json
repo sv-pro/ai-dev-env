@@ -1,0 +1,43 @@
+{
+  "name": "github-readonly",
+  "description": "Read-only GitHub MCP server configuration. Provides access to repository content, pull requests, and commit history without write permissions.",
+  "server": {
+    "type": "mcp",
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-github"],
+    "env": {
+      "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+    }
+  },
+  "permissions": {
+    "mode": "readonly",
+    "allowed_tools": [
+      "get_file_contents",
+      "search_repositories",
+      "get_issue",
+      "list_issues",
+      "get_pull_request",
+      "list_pull_requests",
+      "get_pull_request_diff",
+      "get_pull_request_files",
+      "list_commits",
+      "get_commit",
+      "search_code"
+    ],
+    "denied_tools": [
+      "create_issue",
+      "update_issue",
+      "create_pull_request",
+      "merge_pull_request",
+      "push_files",
+      "create_repository",
+      "fork_repository",
+      "create_branch"
+    ]
+  },
+  "notes": [
+    "Set GITHUB_TOKEN environment variable to a token with read:repo scope.",
+    "Do not use a token with write permissions in this read-only config.",
+    "For public repos, a token with public_repo scope is sufficient."
+  ]
+}

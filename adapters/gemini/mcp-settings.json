@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "github-readonly": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "jira-readonly": {
+      "command": "npx",
+      "args": ["-y", "@souvikdas98/mcp-jira"],
+      "env": {
+        "JIRA_URL": "${JIRA_URL}",
+        "JIRA_EMAIL": "${JIRA_EMAIL}",
+        "JIRA_API_TOKEN": "${JIRA_API_TOKEN}"
+      }
+    }
+  },
+  "notes": [
+    "MCP configuration format for Gemini CLI. Update syntax as Gemini CLI support matures.",
+    "Set environment variables before starting Gemini CLI.",
+    "Jira integration is optional."
+  ]
+}

@@ -1,0 +1,23 @@
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor artifacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (for MCP server installs)
+node_modules/
+.npm/
+
+# Environment files — never commit secrets
+.env
+.env.local
+.env.*.local
+
+# Temp files
+/tmp/
+*.tmp
+*.bak
