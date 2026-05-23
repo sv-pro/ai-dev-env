@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "agent-harness": {
+      "command": "./target/release/harness",
+      "args": [],
+      "env": {
+        "HARNESS_CONFIG": "./harness.yaml"
+      }
+    }
+  }
+}

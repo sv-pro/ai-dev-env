@@ -1,0 +1,50 @@
+version: "1"
+
+world:
+  name: "ai-dev-env"
+  working_dir: "."
+
+tasks:
+  triage:
+    description: "Read-only investigation — search code, read files, inspect git history."
+    tools:
+      - search
+      - read_file
+      - git_log
+      - git_diff
+    policy:
+      allow_write: false
+      paths_whitelist: []
+      require_approval: []
+      max_steps: 15
+
+  refactor:
+    description: "Read and write source files under src/ and tests/. Write ops require approval."
+    tools:
+      - search
+      - read_file
+      - write_file
+      - shell
+      - git_log
+      - git_diff
+    policy:
+      allow_write: true
+      paths_whitelist:
+        - "src/"
+        - "tests/"
+      require_approval:
+        - write_file
+      max_steps: 30
+
+  review:
+    description: "Read-only code review — search, read files, inspect diffs."
+    tools:
+      - search
+      - read_file
+      - git_log
+      - git_diff
+    policy:
+      allow_write: false
+      paths_whitelist: []
+      require_approval: []
+      max_steps: 20
